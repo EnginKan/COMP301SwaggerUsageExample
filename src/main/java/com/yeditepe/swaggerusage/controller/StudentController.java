@@ -9,10 +9,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -49,6 +46,21 @@ private List<Student> studs=List.of(
           return ResponseEntity.notFound().build();
       }
       return ResponseEntity.ok(student);
+    }
+    @Operation(
+            description ="Create new Student Entity"
+    )
+    @ApiResponse
+            (responseCode = "201"
+            , content = @Content(schema = @Schema(implementation = Student.class)))
+     @PostMapping()
+    public ResponseEntity<Student> createStudent(
+            @Parameter(required = true,
+            schema = @Schema(implementation = Student.class))
+            @RequestBody Student student) {
+            studs.add(student);
+            return ResponseEntity.ok(student);
+
     }
 
 
